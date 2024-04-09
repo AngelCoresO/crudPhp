@@ -74,6 +74,21 @@ class Usuario{
             return false;
         }
     }
+
+    /*por la estructura de la base de datos, un usuario solo puede tener un vehiculo asociado, pero un vehiculo puede pertenecer a varios usuarios,
+    hay un metodo en vehiculo para ver todos los usuarios que lo poseen.*/
+    public function vehiculosUsuario($id){
+        if($this->leer($id)){
+            $sql= "SELECT v.* FROM usuarios u,vehiculos v WHERE u.id=$id AND u.vehiculo_id=v.id";
+            $stmt=$this->conn->prepare($sql);
+            $stmt->execute();
+            $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $datos;
+        }else{
+            echo "No existe el usuario con id = $id";
+            return false;
+        }
+    }
 }
 
 $nombre="Francisco";
@@ -83,6 +98,6 @@ $u=new Usuario();
 var_dump($u->leer(2));
 var_dump($u->leer(3)['dni']);
 
-var_dump($u->actualizar(23,$nombre,$dni,$vehiculo_id));
+var_dump($u->vehiculosUsuario(4));
 
 ?>

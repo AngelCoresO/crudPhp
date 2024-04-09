@@ -74,6 +74,19 @@ class Vehiculo{
             return false;
         }
     }
+    
+    public function usuariosVehiculo($id){
+        if($this->leer($id)){
+            $sql= "SELECT u.* FROM usuarios u,vehiculos v WHERE v.id=$id AND u.vehiculo_id=v.id";
+            $stmt=$this->conn->prepare($sql);
+            $stmt->execute();
+            $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $datos;
+        }else{
+            echo "No existe el vehiculo con id = $id";
+            return false;
+        }
+    }
 }
 
 $marca="Toyota";
@@ -84,6 +97,7 @@ $v=new Vehiculo();
 var_dump($v->leer(2));
 var_dump($v->leer(3)['color']);
 
-var_dump($v->crear($marca,$color,$kilometros));
+var_dump($v->usuariosVehiculo(24));
+var_dump($v->usuariosVehiculo(2));
 
 ?>
