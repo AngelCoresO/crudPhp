@@ -1,5 +1,4 @@
 <?php
-//crear clase y metodos, que conecte con conexion y demas, como en usuario
 require_once "Conexion.php";
 
 class Vehiculo{
