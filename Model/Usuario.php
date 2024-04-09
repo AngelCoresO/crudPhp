@@ -22,13 +22,13 @@ class Usuario{
     }
 
     public function crear($nombre,$dni,$vehiculo_id){
-        //comprobar si existe el usuario
-
         $sql= "INSERT INTO usuarios (nombre,dni,vehiculo_id) values('$nombre','$dni','$vehiculo_id')";
         $stmt=$this->conn->prepare($sql);
         if($stmt->execute()){
+            echo "Creado correctamente.";
             return true;
         }else{
+            echo "No se ha podido crear.";
             return false;
         }
     }
@@ -59,15 +59,18 @@ class Usuario{
     }
 
     public function actualizar($id,$nombre,$dni,$vehiculo_id){
-        //comprobar que existe el usuario
-
-        $sql= "UPDATE usuarios SET nombre='$nombre',dni='$dni',vehiculo_id='$vehiculo_id' WHERE id=$id";
-        $stmt=$this->conn->prepare($sql);
-        if($stmt->execute()){
-            echo "Actualizado correctamente.";
-            return true;
+        if($this->leer($id)){
+            $sql= "UPDATE usuarios SET nombre='$nombre',dni='$dni',vehiculo_id='$vehiculo_id' WHERE id=$id";
+            $stmt=$this->conn->prepare($sql);
+            if($stmt->execute()){
+                echo "Actualizado correctamente.";
+                return true;
+            }else{
+                echo "No actualizado.";
+                return false;
+            }
         }else{
-            echo "No actualizado.";
+            echo "No existe el usuario con id = $id";
             return false;
         }
     }
@@ -80,6 +83,6 @@ $u=new Usuario();
 var_dump($u->leer(2));
 var_dump($u->leer(3)['dni']);
 
-
+var_dump($u->actualizar(23,$nombre,$dni,$vehiculo_id));
 
 ?>
